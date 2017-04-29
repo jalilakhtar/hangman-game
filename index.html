@@ -1,0 +1,151 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Hangman Game in JavaScript</title>
+
+	<script type="text/javascript">
+
+		var startPlay = true;
+		var words = ["BUFFALO", "CHICKEN", "DONKEY", "GOOSE", "GOAT", "RABBIT", "TURKEY"];
+		var toGuess = ""; guessWord = ""; yourGuess = ""; wrongGuess = 0;
+
+
+		function selectLetter(lt)
+		{
+			if (startPlay == false)
+			{
+				return;
+			}
+
+			if (yourGuess.indexOf(lt) != -1)
+			{
+				return;
+			}
+			
+			yourGuess += lt;
+			document.game.usedLetters.value = yourGuess;
+			
+			if (toGuess.indexOf(lt) != -1)
+			{
+ 
+ // correct letter guess
+ poslt = 0;
+ temp_mask = guessWord;
+
+
+ while (toGuess.indexOf(lt, poslt) != -1)
+ {
+ 	poslt = toGuess.indexOf(lt, poslt);			
+ 	end = poslt + 1;
+
+ 	start_text = temp_mask.substring(0, poslt);
+ 	end_text = temp_mask.substring(end, temp_mask.length);
+
+ 	temp_mask = start_text + lt + end_text;
+ 	poslt = end;
+ }
+
+ guessWord = temp_mask;
+ document.game.guessWord.value = guessWord;
+ 
+ if (guessWord.indexOf("#") == -1)
+ {
+// you won
+alert("YOU WON!");
+startPlay = false;
+}
+}
+else
+{
+// wrong letter is guessed
+wrongGuess += 1;
+eval("document.hm.src=\"hm" + wrongGuess + ".gif\"");
+
+if (wrongGuess == 10)
+{
+// you lost
+alert("SORRY, YOU LOST!");
+can_play = false;
+}
+}
+}
+
+function reset()
+{
+	selectWord();
+	document.game.usedLetters.value = "";
+	yourGuess = "";
+	wrongGuess = 0;
+	document.hm.src="hmstart.gif";
+}
+
+function selectWord()
+{
+	can_play = true;
+	random_number = Math.round(Math.random() * (words.length - 1));
+	toGuess = words[random_number];
+
+// display masked word
+masked_word = createMask(toGuess);
+document.game.guessWord.value = masked_word;
+guessWord = masked_word;
+}
+
+function createMask(msk)
+{
+	mask = "";
+	wordLenght = msk.length;
+
+
+	for (i = 0; i < wordLenght; i ++)
+	{
+		mask += "?";
+	}
+	return mask;
+}
+
+</script>
+</head>
+
+<body onLoad="reset(); return true;">
+
+	<h1>Hangman Game in JavaScript</h1>
+
+	<p><img src="hmstart.gif" height="166" width="100" name="hm"></p>
+	<form name="game">
+		<p>Domesticated Animal Name: <input type="text" name="guessWord">
+			Your Guess: <input type="text" name="usedLetters"></p>
+		</form>
+			<p><a href="javascript:selectLetter('A');">A</a> | 
+			<a href="javascript:selectLetter('B');">B</a> | 
+			<a href="javascript:selectLetter('C');">C</a> | 
+			<a href="javascript:selectLetter('D');">D</a> | 
+			<a href="javascript:selectLetter('E');">E</a> | 
+			<a href="javascript:selectLetter('F');">F</a> | 
+			<a href="javascript:selectLetter('G');">G</a> | 
+			<a href="javascript:selectLetter('H');">H</a> | 
+			<a href="javascript:selectLetter('I');">I</a> | 
+			<a href="javascript:selectLetter('J');">J</a> | 
+			<a href="javascript:selectLetter('K');">K</a> | 
+			<a href="javascript:selectLetter('L');">L</a> |
+			<a href="javascript:selectLetter('M');">M</a> |
+			<a href="javascript:selectLetter('N');">N</a> | 
+			<a href="javascript:selectLetter('O');">O</a> | 
+			<a href="javascript:selectLetter('P');">P</a> | 
+			<a href="javascript:selectLetter('Q');">Q</a> | 
+			<a href="javascript:selectLetter('R');">R</a> | 
+			<a href="javascript:selectLetter('S');">S</a> | 
+			<a href="javascript:selectLetter('T');">T</a> | 
+			<a href="javascript:selectLetter('U');">U</a> | 
+			<a href="javascript:selectLetter('V');">V</a> | 
+			<a href="javascript:selectLetter('W');">W</a> | 
+			<a href="javascript:selectLetter('X');">X</a> | 
+			<a href="javascript:selectLetter('Y');">Y</a> | 
+			<a href="javascript:selectLetter('Z');">Z</a></p>
+
+			<p><a href="javascript:reset()">Start Game</a></p>
+			<p><a href="javascript:reset()">Reset Game</a></p>
+			<hr>
+			<p>To play this game, type a word in Your Guess field.</p>
+		</body>
+		</html>
